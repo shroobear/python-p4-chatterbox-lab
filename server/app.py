@@ -50,9 +50,9 @@ def messages():
 @app.route('/messages/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def messages_by_id(id):
     message = Message.query.filter(Message.id == id).first()
-    dict_message = message.to_dict()
 
     if request.method == 'GET':
+        dict_message = message.to_dict()
         response = make_response(
             dict_message,
             200
@@ -65,6 +65,8 @@ def messages_by_id(id):
         message.body=data.get("body", message.body)
 
         db.session.commit()
+
+        dict_message = message.to_dict()
 
         response = make_response(
             dict_message,
